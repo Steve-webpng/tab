@@ -10,17 +10,18 @@ import SellerDashboardPage from "./pages/SellerDashboardPage";
 import EditProductPage from "./pages/EditProductPage";
 import EditGigPage from "./pages/EditGigPage";
 import NotFound from "./pages/NotFound";
-import LoginPage from "./pages/LoginPage"; // New import
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage"; // New import
 import Layout from "./components/layout/Layout";
-import { AuthProvider } from "./context/AuthContext"; // New import
-import ProtectedRoute from "./components/auth/ProtectedRoute"; // New import
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
-      <AuthProvider> {/* Wrap the entire app with AuthProvider */}
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -28,7 +29,7 @@ const App = () => (
             <Route path="marketplace/:id" element={<ProductDetailPage />} />
             <Route path="gigs" element={<GigsPage />} />
             <Route path="gigs/:id" element={<GigDetailPage />} />
-            <Route path="login" element={<LoginPage />} /> {/* Login route */}
+            <Route path="login" element={<LoginPage />} />
 
             {/* Protected Routes */}
             <Route element={<ProtectedRoute />}>
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="seller-dashboard" element={<SellerDashboardPage />} />
               <Route path="seller-dashboard/products/:id/edit" element={<EditProductPage />} />
               <Route path="seller-dashboard/gigs/:id/edit" element={<EditGigPage />} />
+              <Route path="profile" element={<ProfilePage />} /> {/* New protected profile route */}
             </Route>
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

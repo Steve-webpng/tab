@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SellerProductCard from "@/components/seller/SellerProductCard";
 import SellerGigCard from "@/components/seller/SellerGigCard";
-import { getProducts, getGigs, deleteProduct, deleteGig, updateProduct, updateGig } from "@/data/appData"; // Import centralized data functions
+import { getProducts, getGigs, deleteProduct, deleteGig } from "@/data/appData";
 import { ProductCardProps } from "@/components/marketplace/ProductCard";
 import { GigCardProps } from "@/components/gigs/GigCard";
 
@@ -29,12 +29,15 @@ const SellerDashboardPage = () => {
   };
 
   // This onSave is passed to EditListingForm to update local state after an edit
-  const handleSaveListing = (id: string, updatedData: any) => {
+  const handleSaveListing = () => {
     // The actual update to appData happens in EditListingForm.
     // Here, we just re-fetch to ensure the dashboard reflects the latest state.
     setProducts(getProducts());
     setGigs(getGigs());
   };
+
+  // Combine and sort all listings for the "My Listings" tab
+  const allListings = [...products, ...gigs].sort((a, b) => a.id.localeCompare(b.id));
 
   return (
     <div className="container py-12 md:py-16">
@@ -44,30 +47,44 @@ const SellerDashboardPage = () => {
           <CardDescription>Manage your active product listings and posted gigs.</CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="products" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="products">My Products</TabsTrigger>
+          <Tabs defaultValue="all-listings" className="w-full">
+            <TabsList className="grid w-full grid-cols-1 mb-6"> {/* Changed to 1 column */}
+              <TabsTrigger value="all-listings">My Listings</TabsTrigger>
             </TabsList>
-            <TabsContent value="products">
-              {products.length === 0 ? (
-                <p className="text-center text-muted-foreground">You have no products listed yet.</p>
+            <TabsContent value="all-listings">
+              {allListings.length === 0 ? (
+                <p className="text-center text-muted-foreground">You have no listings yet. Go create one!</p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {products.map((product) => (
-                    <SellerProductCard key={product.id} {...product} onDelete={handleDeleteProduct} />
-                  ))}
-                </div>
-              )}
-            </TabsContent>
-            <TabsTrigger value="gigs">My Gigs</TabsTrigger>
-            <TabsContent value="gigs">
-              {gigs.length === 0 ? (
-                <p className="text-center text-muted-foreground">You have no gigs posted yet.</p>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {gigs.map((gig) => (
-                    <SellerGigCard key={gig.id} {...gig} onDelete={handleDeleteGig} />
-                  ))}
+                  {allListings.map((listing) => {
+                    if (listing.id.startsWith("p")) {
+                      const product = listing as ProductCardProps;
+                      return (
+                        <SellerProductCard
+                          key={product.id}
+                          id={product.id}
+                          image={product.image}
+                          title={product.title}
+                          price={product.price}
+                          description={product.description}
+                          onDelete={handleDeleteProduct}
+                        />
+                      );
+                    } else {
+                      const gig = listing as GigCardProps;
+                      return (
+                        <SellerGigCard
+                          key={gig.id}
+                          id={gig.id}
+                          title={gig.title}
+                          description={gig.description}
+                          priceRange={gig.priceRange}
+                          category={gig.category}
+                          onDelete={handleDeleteGig}
+                        />
+                      );
+                    }
+                  })}
                 </div>
               )}
             </TabsContent>

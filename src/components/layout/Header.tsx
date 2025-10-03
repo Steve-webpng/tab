@@ -3,8 +3,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, Store, Briefcase, PlusCircle, LayoutDashboard, LogIn, LogOut } from "lucide-react"; // Added LogIn, LogOut icons
-import { useAuth } from "@/context/AuthContext"; // New import
+import { Home, Store, Briefcase, PlusCircle, LayoutDashboard, LogIn, LogOut, UserCircle } from "lucide-react"; // Added UserCircle icon
+import { useAuth } from "@/context/AuthContext";
 import { showSuccess } from "@/utils/toast";
 
 const Header = () => {
@@ -39,11 +39,16 @@ const Header = () => {
               <span><Briefcase className="mr-2 h-4 w-4" /> Gigs</span>
             </Link>
           </Button>
-          {isLoggedIn && ( // Only show Dashboard and Post Listing if logged in
+          {isLoggedIn && (
             <>
               <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
                 <Link to="/seller-dashboard">
                   <span><LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard</span>
+                </Link>
+              </Button>
+              <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
+                <Link to="/profile"> {/* New Profile link */}
+                  <span><UserCircle className="mr-2 h-4 w-4" /> Profile</span>
                 </Link>
               </Button>
               <Button asChild className="transition-colors hover:bg-primary/90">
