@@ -6,8 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MarketplacePage from "./pages/MarketplacePage";
 import GigsPage from "./pages/GigsPage";
-import ProductDetailPage from "./pages/ProductDetailPage"; // Import ProductDetailPage
-import GigDetailPage from "./pages/GigDetailPage"; // Import GigDetailPage
+import ProductDetailPage from "./pages/ProductDetailPage";
+import GigDetailPage from "./pages/GigDetailPage";
+import CreateListingPage from "./pages/CreateListingPage"; // Import CreateListingPage
 import NotFound from "./pages/NotFound";
 import Layout from "./components/layout/Layout";
 
@@ -23,9 +24,10 @@ const App = () => (
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="marketplace" element={<MarketplacePage />} />
-            <Route path="marketplace/:id" element={<ProductDetailPage />} /> {/* New route for product details */}
+            <Route path="marketplace/:id" element={<ProductDetailPage />} />
             <Route path="gigs" element={<GigsPage />} />
-            <Route path="gigs/:id" element={<GigDetailPage />} /> {/* New route for gig details */}
+            <Route path="gigs/:id" element={<GigDetailPage />} />
+            <Route path="create-listing" element={<CreateListingPage />} /> {/* New route for creating listings */}
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Route>
