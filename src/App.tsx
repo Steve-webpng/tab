@@ -8,7 +8,7 @@ import MarketplacePage from "./pages/MarketplacePage";
 import GigsPage from "./pages/GigsPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import GigDetailPage from "./pages/GigDetailPage";
-import CreateListingPage from "./pages/CreateListingPage"; // Import CreateListingPage
+import CreateListingPage from "./pages/CreateListingPage";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/layout/Layout";
 
@@ -16,9 +16,9 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
+    <Toaster />
+    <Sonner />
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -27,7 +27,7 @@ const App = () => (
             <Route path="marketplace/:id" element={<ProductDetailPage />} />
             <Route path="gigs" element={<GigsPage />} />
             <Route path="gigs/:id" element={<GigDetailPage />} />
-            <Route path="create-listing" element={<CreateListingPage />} /> {/* New route for creating listings */}
+            <Route path="create-listing" element={<CreateListingPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Route>
