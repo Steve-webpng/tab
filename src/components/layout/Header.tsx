@@ -3,7 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, Store, Briefcase, PlusCircle } from "lucide-react";
+import { Home, Store, Briefcase, PlusCircle, LayoutDashboard } from "lucide-react"; // Added LayoutDashboard icon
 
 const Header = () => {
   return (
@@ -26,6 +26,11 @@ const Header = () => {
           <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
             <Link to="/gigs">
               <span><Briefcase className="mr-2 h-4 w-4" /> Gigs</span>
+            </Link>
+          </Button>
+          <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
+            <Link to="/seller-dashboard"> {/* New Seller Dashboard Link */}
+              <span><LayoutDashboard className="mr-2 h-4 w-4" /> Dashboard</span>
             </Link>
           </Button>
           <Button asChild className="transition-colors hover:bg-primary/90">
