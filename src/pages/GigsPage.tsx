@@ -1,9 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import GigCard from "@/components/gigs/GigCard";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const dummyGigs = [
   {
@@ -48,9 +50,35 @@ const dummyGigs = [
     priceRange: "$25-40/hour",
     category: "Tech",
   },
+  {
+    id: "g7",
+    title: "Chemistry Lab Report Help",
+    description: "Struggling with chemistry lab reports? I can help you structure, write, and review your reports for clarity and accuracy.",
+    priceRange: "$25-35/hour",
+    category: "Academics",
+  },
+  {
+    id: "g8",
+    title: "Social Media Content Creator",
+    description: "Need engaging content for your club's social media? I create graphics, short videos, and compelling captions.",
+    priceRange: "$40-80/project",
+    category: "Creative",
+  },
 ];
 
+const gigCategories = ["All", "Academics", "Creative", "Tech", "Labor", "Event Support", "Other"];
+
 const GigsPage = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredGigs = dummyGigs.filter((gig) => {
+    const matchesSearch = gig.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          gig.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || gig.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <div className="container py-12 md:py-16">
       <div className="text-center mb-12">
@@ -60,11 +88,36 @@ const GigsPage = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {dummyGigs.map((gig) => (
-          <GigCard key={gig.id} {...gig} />
-        ))}
+      <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        <Input
+          placeholder="Search gigs..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-1"
+        />
+        <Select onValueChange={setSelectedCategory} value={selectedCategory}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
+          <SelectContent>
+            {gigCategories.map((category) => (
+              <SelectItem key={category} value={category}>
+                {category}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
+
+      {filteredGigs.length === 0 ? (
+        <p className="text-center text-muted-foreground text-xl mt-10">No gigs found matching your criteria.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredGigs.map((gig) => (
+            <GigCard key={gig.id} {...gig} />
+          ))}
+        </div>
+      )}
 
       <div className="text-center mt-12">
         <Button asChild>
