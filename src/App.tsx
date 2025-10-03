@@ -1,4 +1,3 @@
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -10,26 +9,28 @@ import CreateListingPage from "./pages/CreateListingPage";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/layout/Layout";
 
+// Removed TooltipProvider import as it's being removed from the component tree
+// import { TooltipProvider } from "@/components/ui/tooltip"; 
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="marketplace" element={<MarketplacePage />} />
-            <Route path="marketplace/:id" element={<ProductDetailPage />} />
-            <Route path="gigs" element={<GigsPage />} />
-            <Route path="gigs/:id" element={<GigDetailPage />} />
-            <Route path="create-listing" element={<CreateListingPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    {/* TooltipProvider has been removed to resolve the React.Children.only error */}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="marketplace" element={<MarketplacePage />} />
+          <Route path="marketplace/:id" element={<ProductDetailPage />} />
+          <Route path="gigs" element={<GigsPage />} />
+          <Route path="gigs/:id" element={<GigDetailPage />} />
+          <Route path="create-listing" element={<CreateListingPage />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
