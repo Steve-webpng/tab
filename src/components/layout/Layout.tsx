@@ -13,8 +13,8 @@ const Layout = () => {
       <main className="flex-1 p-4">
         <Outlet />
       </main>
-      {/* <Footer /> */} {/* Commenting out Footer */}
-      {/* <Sonner /> */} {/* Commenting out Sonner */}
+      <Footer /> {/* Uncommenting Footer */}
+      <Sonner /> {/* Uncommenting Sonner */}
     </div>
   );
 };
