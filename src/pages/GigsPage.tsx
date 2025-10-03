@@ -1,78 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import GigCard from "@/components/gigs/GigCard";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-const dummyGigs = [
-  {
-    id: "g1",
-    title: "Math Tutoring (Calculus I)",
-    description: "Need help with Calculus I? I offer one-on-one tutoring sessions. Experienced in explaining complex topics clearly. Flexible hours.",
-    priceRange: "$20-30/hour",
-    category: "Academics",
-  },
-  {
-    id: "g2",
-    title: "Essay Proofreading & Editing",
-    description: "Professional proofreading and editing services for essays, research papers, and assignments. Improve your grades with polished writing.",
-    priceRange: "$15-25/page",
-    category: "Academics",
-  },
-  {
-    id: "g3",
-    title: "Graphic Design for Club Posters",
-    description: "Looking for a designer to create eye-catching posters for your club events? I specialize in event promotion graphics.",
-    priceRange: "$50-100/project",
-    category: "Creative",
-  },
-  {
-    id: "g4",
-    title: "Help Moving Dorm Furniture",
-    description: "Need an extra pair of hands to move furniture into or out of your dorm? I'm strong and reliable!",
-    priceRange: "$30-50/hour",
-    category: "Labor",
-  },
-  {
-    id: "g5",
-    title: "Event Photography Services",
-    description: "Capturing memories at your campus events! High-quality photos for parties, ceremonies, and club gatherings.",
-    priceRange: "$75-150/event",
-    category: "Creative",
-  },
-  {
-    id: "g6",
-    title: "Web Development Assistant",
-    description: "Seeking a junior web developer to assist with a small project. Basic knowledge of React and Tailwind CSS required.",
-    priceRange: "$25-40/hour",
-    category: "Tech",
-  },
-  {
-    id: "g7",
-    title: "Chemistry Lab Report Help",
-    description: "Struggling with chemistry lab reports? I can help you structure, write, and review your reports for clarity and accuracy.",
-    priceRange: "$25-35/hour",
-    category: "Academics",
-  },
-  {
-    id: "g8",
-    title: "Social Media Content Creator",
-    description: "Need engaging content for your club's social media? I create graphics, short videos, and compelling captions.",
-    priceRange: "$40-80/project",
-    category: "Creative",
-  },
-];
+import { getGigs } from "@/data/appData"; // Import centralized data functions
 
 const gigCategories = ["All", "Academics", "Creative", "Tech", "Labor", "Event Support", "Other"];
 
 const GigsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [allGigs, setAllGigs] = useState(getGigs()); // Initialize with centralized data
 
-  const filteredGigs = dummyGigs.filter((gig) => {
+  // Re-fetch gigs if the data changes (e.g., after creating a new gig)
+  useEffect(() => {
+    setAllGigs(getGigs());
+  }, []); // Empty dependency array means this runs once on mount
+
+  const filteredGigs = allGigs.filter((gig) => {
     const matchesSearch = gig.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           gig.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "All" || gig.category === selectedCategory;

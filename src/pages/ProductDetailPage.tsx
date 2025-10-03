@@ -1,45 +1,20 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-// Re-defining dummy products for the detail page for simplicity
-const dummyProducts = [
-  {
-    id: "1",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd87?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Used Calculus Textbook",
-    price: 35.00,
-    description: "Barely used Calculus textbook, 8th edition. Great condition, no highlights or notes. Essential for any math student. This edition covers single-variable calculus, including limits, derivatives, integrals, and sequences and series. Perfect for self-study or as a supplement to your course material. ISBN: 978-0495011607.",
-  },
-  {
-    id: "2",
-    image: "https://images.unsplash.com/photo-1526178613543-cca70d76678c?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Mini Fridge",
-    price: 80.00,
-    description: "Compact mini fridge, perfect for dorm rooms. Keeps drinks and snacks cool. Minor wear and tear, fully functional. Features a small freezer compartment and adjustable shelving. Dimensions: 18\" H x 17\" W x 19\" D. Energy efficient and quiet operation. Ideal for keeping beverages and snacks handy during late-night study sessions.",
-  },
-  {
-    id: "3",
-    image: "https://images.unsplash.com/photo-1581044777550-4cfa607037dc?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Stylish Winter Jacket",
-    price: 50.00,
-    description: "Warm and stylish winter jacket, size M. Only worn a few times, excellent condition. Perfect for cold campus days. Features a detachable hood, multiple pockets, and a water-resistant outer shell. Color: Navy Blue. Suitable for temperatures down to 0°C. A must-have for the colder months.",
-  },
-  {
-    id: "4",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Gaming Monitor",
-    price: 150.00,
-    description: "24-inch gaming monitor, 144Hz refresh rate. Great for competitive gaming or extended study sessions. Comes with all cables. Full HD (1920x1080) resolution, 1ms response time. Features FreeSync technology for smooth gameplay. Perfect for eSports enthusiasts or anyone needing a high-performance display. Brand: AOC.",
-  },
-];
+import { getProducts } from "@/data/appData"; // Import centralized data functions
+import { ProductCardProps } from "@/components/marketplace/ProductCard";
 
 const ProductDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const product = dummyProducts.find((p) => p.id === id);
+  const [product, setProduct] = useState<ProductCardProps | undefined>(undefined);
+
+  useEffect(() => {
+    const products = getProducts();
+    setProduct(products.find((p) => p.id === id));
+  }, [id]);
 
   if (!product) {
     return (

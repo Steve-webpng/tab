@@ -1,24 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import EditListingForm from "@/components/forms/EditListingForm";
-import { sellerProducts as initialSellerProducts } from "@/data/sellerListings";
+import { getProducts, updateProduct } from "@/data/appData"; // Import centralized data functions
 import { ProductCardProps } from "@/components/marketplace/ProductCard";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const EditProductPage = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [products, setProducts] = useState<ProductCardProps[]>(initialSellerProducts);
+  const [productToEdit, setProductToEdit] = useState<ProductCardProps | undefined>(undefined);
 
-  const productToEdit = products.find((p) => p.id === id);
+  useEffect(() => {
+    const products = getProducts();
+    setProductToEdit(products.find((p) => p.id === id));
+  }, [id]);
 
   const handleSaveProduct = (productId: string, updatedData: any) => {
-    setProducts(products.map(p => p.id === productId ? { ...p, ...updatedData } : p));
-    // In a real app, you'd update the backend here.
+    // The actual update to appData happens in EditListingForm.
+    // Here, we just update the local state to reflect changes immediately.
+    setProductToEdit(prev => prev ? { ...prev, ...updatedData } : undefined);
     console.log("Updated product:", updatedData);
   };
 
@@ -54,6 +56,7 @@ const EditProductPage = () => {
               description: productToEdit.description,
               price: productToEdit.price,
               image: productToEdit.image,
+              category: productToEdit.category, // Ensure category is passed
             }}
             onSave={handleSaveProduct}
           />

@@ -1,24 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import EditListingForm from "@/components/forms/EditListingForm";
-import { sellerGigs as initialSellerGigs } from "@/data/sellerListings";
+import { getGigs, updateGig } from "@/data/appData"; // Import centralized data functions
 import { GigCardProps } from "@/components/gigs/GigCard";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
 const EditGigPage = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const [gigs, setGigs] = useState<GigCardProps[]>(initialSellerGigs);
+  const [gigToEdit, setGigToEdit] = useState<GigCardProps | undefined>(undefined);
 
-  const gigToEdit = gigs.find((g) => g.id === id);
+  useEffect(() => {
+    const gigs = getGigs();
+    setGigToEdit(gigs.find((g) => g.id === id));
+  }, [id]);
 
   const handleSaveGig = (gigId: string, updatedData: any) => {
-    setGigs(gigs.map(g => g.id === gigId ? { ...g, ...updatedData } : g));
-    // In a real app, you'd update the backend here.
+    // The actual update to appData happens in EditListingForm.
+    // Here, we just update the local state to reflect changes immediately.
+    setGigToEdit(prev => prev ? { ...prev, ...updatedData } : undefined);
     console.log("Updated gig:", updatedData);
   };
 

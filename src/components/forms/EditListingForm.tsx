@@ -18,6 +18,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
+import { updateProduct, updateGig } from "@/data/appData"; // Import centralized data functions
 
 type ListingType = "product" | "gig";
 
@@ -32,7 +33,7 @@ interface EditListingFormProps {
     category?: string;
     image?: string; // For products
   };
-  onSave: (id: string, updatedData: any) => void;
+  onSave: (id: string, updatedData: any) => void; // Keep onSave for local state updates in parent
 }
 
 const productCategories = ["Textbooks", "Electronics", "Apparel", "Dorm Essentials", "Other"];
@@ -95,18 +96,19 @@ const EditListingForm: React.FC<EditListingFormProps> = ({ type, initialData, on
 
   const onSubmit = (values: z.infer<ReturnType<typeof formSchema>>) => {
     const updatedData = type === "product"
-      ? { ...values, price: values.price as number } // Ensure price is number for product
+      ? { ...values, price: values.price as number, image: values.imageUrl } // Ensure price is number for product
       : { ...values, priceRange: values.price as string }; // Ensure price is string for gig
 
     // Simulate API call
     setTimeout(() => {
-      onSave(initialData.id, updatedData);
-      showSuccess(`${type === "product" ? "Product" : "Gig"} updated successfully!`);
       if (type === "product") {
-        navigate("/seller-dashboard");
+        updateProduct(initialData.id, updatedData);
       } else {
-        navigate("/seller-dashboard");
+        updateGig(initialData.id, updatedData);
       }
+      onSave(initialData.id, updatedData); // Still call parent's onSave to update local state in dashboard
+      showSuccess(`${type === "product" ? "Product" : "Gig"} updated successfully!`);
+      navigate("/seller-dashboard"); // Navigate back to dashboard after saving
     }, 1500);
   };
 

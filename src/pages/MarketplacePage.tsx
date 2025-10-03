@@ -1,70 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/marketplace/ProductCard";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-const dummyProducts = [
-  {
-    id: "1",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd87?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Used Calculus Textbook",
-    price: 35.00,
-    description: "Barely used Calculus textbook, 8th edition. Great condition, no highlights or notes. Essential for any math student.",
-    category: "Textbooks",
-  },
-  {
-    id: "2",
-    image: "https://images.unsplash.com/photo-1526178613543-cca70d76678c?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Mini Fridge",
-    price: 80.00,
-    description: "Compact mini fridge, perfect for dorm rooms. Keeps drinks and snacks cool. Minor wear and tear, fully functional.",
-    category: "Dorm Essentials",
-  },
-  {
-    id: "3",
-    image: "https://images.unsplash.com/photo-1581044777550-4cfa607037dc?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Stylish Winter Jacket",
-    price: 50.00,
-    description: "Warm and stylish winter jacket, size M. Only worn a few times, excellent condition. Perfect for cold campus days.",
-    category: "Apparel",
-  },
-  {
-    id: "4",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Gaming Monitor",
-    price: 150.00,
-    description: "24-inch gaming monitor, 144Hz refresh rate. Great for competitive gaming or extended study sessions. Comes with all cables.",
-    category: "Electronics",
-  },
-  {
-    id: "5",
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Another Gaming Monitor",
-    price: 120.00,
-    description: "27-inch gaming monitor, 75Hz refresh rate. Good for casual gaming or work. Comes with power cable.",
-    category: "Electronics",
-  },
-  {
-    id: "6",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd87?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title: "Advanced Physics Textbook",
-    price: 40.00,
-    description: "Advanced Physics textbook, 3rd edition. Excellent condition. Required for Physics 301.",
-    category: "Textbooks",
-  },
-];
+import { getProducts } from "@/data/appData"; // Import centralized data functions
 
 const productCategories = ["All", "Textbooks", "Electronics", "Apparel", "Dorm Essentials", "Other"];
 
 const MarketplacePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [allProducts, setAllProducts] = useState(getProducts()); // Initialize with centralized data
 
-  const filteredProducts = dummyProducts.filter((product) => {
+  // Re-fetch products if the data changes (e.g., after creating a new product)
+  useEffect(() => {
+    setAllProducts(getProducts());
+  }, []); // Empty dependency array means this runs once on mount
+
+  const filteredProducts = allProducts.filter((product) => {
     const matchesSearch = product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;

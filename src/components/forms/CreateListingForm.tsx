@@ -18,6 +18,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
+import { addProduct, addGig } from "@/data/appData"; // Import centralized data functions
 
 type ListingType = "product" | "gig";
 
@@ -78,6 +79,22 @@ const CreateListingForm: React.FC<CreateListingFormProps> = ({ type }) => {
 
     // Simulate API call
     setTimeout(() => {
+      if (type === "product") {
+        addProduct({
+          title: values.title,
+          description: values.description,
+          price: values.price as number,
+          category: values.category,
+          image: values.imageUrl || "https://via.placeholder.com/400x300?text=No+Image", // Default image
+        });
+      } else {
+        addGig({
+          title: values.title,
+          description: values.description,
+          priceRange: values.price as string,
+          category: values.category,
+        });
+      }
       showSuccess(`${type === "product" ? "Product" : "Gig"} created successfully!`);
       if (type === "product") {
         navigate("/marketplace");
