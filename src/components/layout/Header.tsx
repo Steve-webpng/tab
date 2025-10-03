@@ -3,7 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Home, Store, Briefcase, PlusCircle } from "lucide-react"; // Import PlusCircle icon
+import { Home, Store, Briefcase, PlusCircle } from "lucide-react";
 
 const Header = () => {
   return (
@@ -15,22 +15,22 @@ const Header = () => {
         <nav className="flex items-center space-x-4">
           <Button variant="ghost" asChild>
             <Link to="/">
-              <Home className="mr-2 h-4 w-4" /> Home
+              <span><Home className="mr-2 h-4 w-4" /> Home</span>
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link to="/marketplace">
-              <Store className="mr-2 h-4 w-4" /> Marketplace
+              <span><Store className="mr-2 h-4 w-4" /> Marketplace</span>
             </Link>
           </Button>
           <Button variant="ghost" asChild>
             <Link to="/gigs">
-              <Briefcase className="mr-2 h-4 w-4" /> Gigs
+              <span><Briefcase className="mr-2 h-4 w-4" /> Gigs</span>
             </Link>
           </Button>
-          <Button asChild> {/* Changed to default button for prominence */}
+          <Button asChild>
             <Link to="/create-listing">
-              <PlusCircle className="mr-2 h-4 w-4" /> Post Listing
+              <span><PlusCircle className="mr-2 h-4 w-4" /> Post Listing</span>
             </Link>
           </Button>
         </nav>
