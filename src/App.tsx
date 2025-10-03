@@ -9,14 +9,10 @@ import CreateListingPage from "./pages/CreateListingPage";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/layout/Layout";
 
-// Removed TooltipProvider import as it's being removed from the component tree
-// import { TooltipProvider } from "@/components/ui/tooltip"; 
-
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    {/* TooltipProvider has been removed to resolve the React.Children.only error */}
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
