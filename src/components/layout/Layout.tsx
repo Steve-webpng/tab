@@ -4,7 +4,8 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Toaster } from "@/components/ui/toaster";
+// Removed Toaster import as it's not used by the application's toast utility
+// import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 
 const Layout = () => {
@@ -15,7 +16,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
-      <Toaster />
+      {/* Keeping only Sonner as it's used by src/utils/toast.ts */}
       <Sonner />
     </div>
   );
