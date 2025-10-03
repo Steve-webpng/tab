@@ -4,7 +4,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-// Removed: import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster as Sonner } from "@/components/ui/sonner"; // Re-added import
 
 const Layout = () => {
   return (
@@ -14,7 +14,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <Footer />
-      {/* Removed: <Sonner /> */}
+      <Sonner /> {/* Re-added Toaster component */}
     </div>
   );
 };
