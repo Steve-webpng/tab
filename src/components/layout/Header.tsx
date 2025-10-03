@@ -13,22 +13,22 @@ const Header = () => {
           <span className="inline-block font-bold text-lg">Campus Hub</span>
         </Link>
         <nav className="flex items-center space-x-4">
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
             <Link to="/">
               <span><Home className="mr-2 h-4 w-4" /> Home</span>
             </Link>
           </Button>
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
             <Link to="/marketplace">
               <span><Store className="mr-2 h-4 w-4" /> Marketplace</span>
             </Link>
           </Button>
-          <Button variant="ghost" asChild>
+          <Button variant="ghost" asChild className="transition-colors hover:bg-accent hover:text-accent-foreground">
             <Link to="/gigs">
               <span><Briefcase className="mr-2 h-4 w-4" /> Gigs</span>
             </Link>
           </Button>
-          <Button asChild>
+          <Button asChild className="transition-colors hover:bg-primary/90">
             <Link to="/create-listing">
               <span><PlusCircle className="mr-2 h-4 w-4" /> Post Listing</span>
             </Link>
