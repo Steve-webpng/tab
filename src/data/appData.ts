@@ -1,6 +1,16 @@
 import { ProductCardProps } from "@/components/marketplace/ProductCard";
 import { GigCardProps } from "@/components/gigs/GigCard";
 
+// Define a type for user profile data
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  bio?: string;
+  memberSince: string;
+}
+
 // Initial dummy data for products
 let _products: ProductCardProps[] = [
   {
@@ -113,11 +123,22 @@ let _gigs: GigCardProps[] = [
   },
 ];
 
+// Dummy user profile data
+let _userProfile: UserProfile = {
+  id: "user1",
+  name: "John Doe",
+  email: "john.doe@campus.edu",
+  avatarUrl: "https://api.dicebear.com/7.x/lorelei/svg?seed=JohnDoe", // Placeholder avatar
+  bio: "Student at Campus University, passionate about technology and helping others. Selling old textbooks and offering web development services.",
+  memberSince: "August 2023",
+};
+
 let nextProductId = _products.length + 1;
 let nextGigId = _gigs.length + 1;
 
 export const getProducts = (): ProductCardProps[] => [..._products];
 export const getGigs = (): GigCardProps[] => [..._gigs];
+export const getUserProfile = (): UserProfile => ({ ..._userProfile }); // Return a copy
 
 export const addProduct = (newProduct: Omit<ProductCardProps, 'id'>): ProductCardProps => {
   const productWithId = { ...newProduct, id: `p${nextProductId++}` };
@@ -159,4 +180,9 @@ export const deleteGig = (id: string): boolean => {
   const initialLength = _gigs.length;
   _gigs = _gigs.filter(g => g.id !== id);
   return _gigs.length < initialLength;
+};
+
+export const updateUserProfile = (updatedFields: Partial<UserProfile>): UserProfile => {
+  _userProfile = { ..._userProfile, ...updatedFields };
+  return _userProfile;
 };
