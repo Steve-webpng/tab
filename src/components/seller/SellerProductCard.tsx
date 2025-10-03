@@ -13,6 +13,7 @@ interface SellerProductCardProps {
   price: number;
   description: string;
   onDelete: (id: string) => void;
+  category?: string; // Added category for consistency
 }
 
 const SellerProductCard: React.FC<SellerProductCardProps> = ({ id, image, title, price, description, onDelete }) => {
@@ -28,7 +29,7 @@ const SellerProductCard: React.FC<SellerProductCardProps> = ({ id, image, title,
       <img src={image} alt={title} className="w-full h-48 object-cover" />
       <CardHeader>
         <CardTitle className="text-xl">{title}</CardTitle>
-        <CardDescription className="text-lg font-semibold text-primary">${price.toFixed(2)}</CardDescription>
+        <CardDescription className="text-lg font-semibold text-primary">UGX {price.toFixed(2)}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
         <p className="text-sm text-muted-foreground line-clamp-3">{description}</p>

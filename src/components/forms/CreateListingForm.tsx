@@ -46,7 +46,7 @@ const formSchema = (type: ListingType) =>
           message: "Price must be a valid number (e.g., 35.00).",
         }).transform(Number)
       : z.string().min(5, {
-          message: "Price range is required (e.g., $20-30/hour).",
+          message: "Price range is required (e.g., UGX 20,000-30,000/hour).",
         }).max(50, {
           message: "Price range must not be longer than 50 characters.",
         }),
@@ -144,11 +144,11 @@ const CreateListingForm: React.FC<CreateListingFormProps> = ({ type }) => {
           name="price"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{type === "product" ? "Price ($)" : "Price Range (e.g., $20-30/hour)"}</FormLabel>
+              <FormLabel>{type === "product" ? "Price (UGX)" : "Price Range (e.g., UGX 20,000-30,000/hour)"}</FormLabel>
               <FormControl>
                 <Input
                   type="text"
-                  placeholder={type === "product" ? "e.g., 35.00" : "e.g., $20-30/hour"}
+                  placeholder={type === "product" ? "e.g., 35000.00" : "e.g., UGX 20,000-30,000/hour"}
                   {...field}
                 />
               </FormControl>

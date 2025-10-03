@@ -40,7 +40,7 @@ const ProductDetailPage = () => {
           <div>
             <CardHeader className="px-0 pt-0">
               <CardTitle className="text-3xl font-bold">{product.title}</CardTitle>
-              <CardDescription className="text-2xl font-semibold text-primary">${product.price.toFixed(2)}</CardDescription>
+              <CardDescription className="text-2xl font-semibold text-primary">UGX {product.price.toFixed(2)}</CardDescription>
             </CardHeader>
             <CardContent className="px-0">
               <p className="text-base text-muted-foreground">{product.description}</p>
