@@ -19,6 +19,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { showSuccess } from "@/utils/toast";
 import { useNavigate } from "react-router-dom";
 import { updateProduct, updateGig } from "@/data/appData"; // Import centralized data functions
+import { ProductCardProps } from "@/components/marketplace/ProductCard"; // Import for type
+import { GigCardProps } from "@/components/gigs/GigCard"; // Import for type
 
 type ListingType = "product" | "gig";
 
@@ -95,18 +97,28 @@ const EditListingForm: React.FC<EditListingFormProps> = ({ type, initialData, on
   }, [initialData, form]);
 
   const onSubmit = (values: z.infer<ReturnType<typeof formSchema>>) => {
-    const updatedData = type === "product"
-      ? { ...values, price: values.price as number, image: values.imageUrl } // Ensure price is number for product
-      : { ...values, priceRange: values.price as string }; // Ensure price is string for gig
-
     // Simulate API call
     setTimeout(() => {
       if (type === "product") {
-        updateProduct(initialData.id, updatedData);
-      } else {
-        updateGig(initialData.id, updatedData);
+        const productUpdateData: Partial<ProductCardProps> = {
+          title: values.title,
+          description: values.description,
+          price: values.price as number,
+          category: values.category,
+          image: values.imageUrl || "https://via.placeholder.com/400x300?text=No+Image",
+        };
+        updateProduct(initialData.id, productUpdateData);
+        onSave(initialData.id, productUpdateData); // Pass the correctly typed data
+      } else { // type === "gig"
+        const gigUpdateData: Partial<GigCardProps> = {
+          title: values.title,
+          description: values.description,
+          priceRange: values.price as string,
+          category: values.category,
+        };
+        updateGig(initialData.id, gigUpdateData);
+        onSave(initialData.id, gigUpdateData); // Pass the correctly typed data
       }
-      onSave(initialData.id, updatedData); // Still call parent's onSave to update local state in dashboard
       showSuccess(`${type === "product" ? "Product" : "Gig"} updated successfully!`);
       navigate("/seller-dashboard"); // Navigate back to dashboard after saving
     }, 1500);
