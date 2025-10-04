@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-interface GigCardProps {
+export interface GigCardProps {
   id: string;
   title: string;
   description: string;
